@@ -10,4 +10,6 @@ target_sources(
     CMakeNode
     PRIVATE
     CMakeNode.cpp
+    CMakeParser.cpp
+    CMakeVisualizer.cpp
 )
