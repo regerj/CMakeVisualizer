@@ -12,7 +12,7 @@ FileEngine::~FileEngine() {}
 void FileEngine::Generate() {
     std::ofstream outFile("graph.gv");
     outFile << "digraph G {\n";
-    outFile << "    splines=\"FALSE\";\n";
+    outFile << "    splines=\"TRUE\";\n";
 
     for (const auto &node : m_nodes) {
         outFile << "    " << node.second.name << " [label=\"" << node.second.name << "\", shape=\"square\"];\n";
