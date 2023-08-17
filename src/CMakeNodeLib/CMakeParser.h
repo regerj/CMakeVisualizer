@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "CMakeGraph.h"
 #include "CMakeNode.h"
 
 namespace CMakeNode {
@@ -25,6 +26,7 @@ class CMakeParser {
         std::string ReadFile(std::filesystem::path path);
         std::string m_path;
         std::map<std::string, Node> m_nodes;
+        CMakeGraph m_graph;
         const std::regex m_targetRegex = std::regex("add_(executable|library)\\([^\\)]*\\)");
         const std::regex m_sourceRegex = std::regex("target_sources\\([^\\)]*\\)");
         const std::regex m_linksRegex = std::regex("target_link_libraries\\([^\\)]*\\)");

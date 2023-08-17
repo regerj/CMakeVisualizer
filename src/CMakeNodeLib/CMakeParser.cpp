@@ -58,7 +58,8 @@ void CMakeParser::ParseForTargets(std::filesystem::path path){
 
     for (const auto &name : names) {
         std::string trimmedName = Tokenize(name)[0];
-        m_nodes.insert(std::pair<std::string, Node>(trimmedName, Node{.name = trimmedName}));
+        m_graph.Insert(Node{.name = name});
+        // m_nodes.insert(std::pair<std::string, Node>(trimmedName, Node{.name = trimmedName}));
     }
 }
 
@@ -74,7 +75,8 @@ void CMakeParser::ParseForSources(std::filesystem::path path) {
             if (sources[i] == "PRIVATE" || sources[i] == "PUBLIC") {
                 continue;
             }
-            m_nodes[target].sources.push_back(sources[i]);
+            m_graph[target].sources.push_back(sources[i]);
+            // m_nodes[target].sources.push_back(sources[i]);
         }
     }
 }
@@ -91,7 +93,8 @@ void CMakeParser::ParseForLinks(std::filesystem::path path) {
             if (links[i] == "PRIVATE" || links[i] == "PUBLIC") {
                 continue;
             }
-            m_nodes.find(target)->second.links.push_back(links[i]);
+            m_graph[target].links.push_back(links[i]);
+            // m_nodes.find(target)->second.links.push_back(links[i]);
         }
     }
 }
