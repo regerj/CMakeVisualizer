@@ -10,7 +10,7 @@ namespace CMakeNode {
 
 void CMakeGraph::Insert(Node node) {
     m_nodes.push_back(node);
-    m_map[node.name] = m_nodes.size() - 1;
+    m_map.insert(std::pair<std::string, int>(node.name, m_nodes.size() - 1));
 }
 
 bool CMakeGraph::Exists(std::string name) {
@@ -43,6 +43,10 @@ void CMakeGraph::GenerateAdjacencyMatrix() {
             
         }
     }
+}
+
+std::vector<Node> CMakeGraph::GetNodes() {
+    return m_nodes;
 }
 
 } // namespace CMakeNode

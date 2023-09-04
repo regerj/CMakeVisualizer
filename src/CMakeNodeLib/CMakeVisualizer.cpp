@@ -7,23 +7,33 @@
 
 namespace CMakeNode {
 
-FileEngine::FileEngine(std::map<std::string, Node> nodes) : m_nodes{nodes} {}
+FileEngine::FileEngine(CMakeGraph graph) : m_graph{graph} {}
 
 FileEngine::~FileEngine() {}
 
 void FileEngine::Generate() {
-    for (const auto &node : m_nodes) {
-        std::ofstream outFile(node.second.name + "graph.gv");
+    for (const auto &node : m_graph.GetNodes()) {
+        std::ofstream outFile(node.name + "graph.gv");
         outFile << "digraph G {\n";
         outFile << "    splines=\"TRUE\";\n";
+
         
-        RecursiveNodeAddition(outFile, node.second);
-        RecursiveEdgeAddition(outFile, node.second);
 
         outFile << "}";
-
         outFile.close();
     }
+    // for (const auto &node : m_graph) {
+    //     std::ofstream outFile(node.second.name + "graph.gv");
+    //     outFile << "digraph G {\n";
+    //     outFile << "    splines=\"TRUE\";\n";
+        
+    //     RecursiveNodeAddition(outFile, node.second);
+    //     RecursiveEdgeAddition(outFile, node.second);
+
+    //     outFile << "}";
+
+    //     outFile.close();
+    // }
 }
 
 

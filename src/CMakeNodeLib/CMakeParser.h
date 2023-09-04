@@ -17,6 +17,7 @@ class CMakeParser {
         CMakeParser(std::string path);
         CMakeParser * Parse();
         std::map<std::string, Node> GetNodes();
+        CMakeGraph GetGraph();
     protected:
         void ParseForTargets(std::filesystem::path path);
         void ParseForSources(std::filesystem::path path);

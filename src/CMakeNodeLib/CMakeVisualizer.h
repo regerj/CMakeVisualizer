@@ -5,13 +5,14 @@
 #include <string>
 #include <unordered_set>
 
+#include "CMakeGraph.h"
 #include "CMakeNode.h"
 
 namespace CMakeNode {
 
 class FileEngine {
     public:
-        FileEngine(std::map<std::string, Node> nodes);
+        FileEngine(CMakeGraph graph);
         void Generate();
         ~FileEngine();
     protected:
@@ -26,6 +27,7 @@ class FileEngine {
             std::unique_ptr<std::unordered_set<std::string>> visited = std::make_unique<std::unordered_set<std::string>>()
         );
         std::map<std::string, Node> m_nodes;
+        CMakeGraph m_graph;
 };
 
 } // namespace CMakeNode

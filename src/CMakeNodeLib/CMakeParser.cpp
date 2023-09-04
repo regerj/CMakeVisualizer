@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "CMakeGraph.h"
 #include "CMakeNode.h"
 
 namespace CMakeNode {
@@ -35,6 +36,10 @@ std::map<std::string, Node> CMakeParser::GetNodes() {
     return m_nodes;
 }
 
+CMakeGraph CMakeParser::GetGraph() {
+    return m_graph;
+}
+
 std::vector<std::string> CMakeParser::ParseWithRegex(const std::string str, const std::regex &rx) {
     std::vector<std::string> vec;
 
@@ -58,7 +63,11 @@ void CMakeParser::ParseForTargets(std::filesystem::path path){
 
     for (const auto &name : names) {
         std::string trimmedName = Tokenize(name)[0];
-        m_graph.Insert(Node{.name = name});
+        if (m_graph.Exists(trimmedName)) {
+            m_graph[trimmedName].scope = INTERNAL;
+        } else {
+            m_graph.Insert(Node{.name = trimmedName, .scope = INTERNAL});
+        }
         // m_nodes.insert(std::pair<std::string, Node>(trimmedName, Node{.name = trimmedName}));
     }
 }
@@ -92,6 +101,9 @@ void CMakeParser::ParseForLinks(std::filesystem::path path) {
         for (size_t i = 1; i < links.size(); i++) {
             if (links[i] == "PRIVATE" || links[i] == "PUBLIC") {
                 continue;
+            }
+            if (!m_graph.Exists(links[i])) {
+                m_graph.Insert(Node{.name = links[i], .type = LIBRARY, .scope = EXTERNAL});
             }
             m_graph[target].links.push_back(links[i]);
             // m_nodes.find(target)->second.links.push_back(links[i]);

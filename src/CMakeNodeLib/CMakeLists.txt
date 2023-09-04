@@ -9,6 +9,7 @@ target_include_directories(
 target_sources(
     CMakeNode
     PRIVATE
+    CMakeGraph.cpp
     CMakeNode.cpp
     CMakeParser.cpp
     CMakeVisualizer.cpp

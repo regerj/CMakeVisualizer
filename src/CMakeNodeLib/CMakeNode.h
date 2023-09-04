@@ -9,9 +9,15 @@ enum NodeType {
     LIBRARY
 };
 
+enum NodeScope {
+    INTERNAL = 0,
+    EXTERNAL
+};
+
 struct Node {
     std::string name;
     NodeType type;
+    NodeScope scope;
     std::vector<std::string> links;
     std::vector<std::string> sources;
 };

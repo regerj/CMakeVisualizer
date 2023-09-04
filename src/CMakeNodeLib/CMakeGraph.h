@@ -13,6 +13,8 @@ class CMakeGraph {
         CMakeGraph() {}
         ~CMakeGraph() {}
 
+        std::vector<Node> GetNodes();
+
         void Insert(Node node);
 
         void GenerateAdjacencyMatrix();

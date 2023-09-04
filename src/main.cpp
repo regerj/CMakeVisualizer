@@ -12,23 +12,26 @@
 namespace fs = std::filesystem;
 
 int main() {
-    CMakeNode::CMakeParser parser("./");
-    auto nodes = parser.Parse()->GetNodes();
+    CMakeNode::CMakeParser parser("/home/kalidev/src/cmake-example");
+    parser.Parse();
+    auto graph = parser.GetGraph();
+
+    auto nodes = graph.GetNodes();
 
     for (const auto &node : nodes) {
-        std::cout << "Target: " << node.second.name << std::endl;
+        std::cout << "Target: " << node.name << std::endl;
         std::cout << "\tLinks:" << std::endl;
-        for (const auto &link : node.second.links) {
+        for (const auto &link : node.links) {
             std::cout << "\t\t" << link << std::endl;
         }
         std::cout << "\tSources:" << std::endl;
-        for (const auto &source : node.second.sources) {
+        for (const auto &source : node.sources) {
             std::cout << "\t\t" << source << std::endl;
         }
     }
 
-    CMakeNode::FileEngine engine(nodes);
-    engine.Generate();
+    // CMakeNode::FileEngine engine(nodes);
+    // engine.Generate();
 
     // Recursivley iterate the file system
     // for (const auto & entry : fs::recursive_directory_iterator("/home/kalidev/src/CMakeVisualizer/src")) {
