@@ -1,5 +1,6 @@
 #include "CMakeVisualizer.h"
 
+#include <cstdlib>
 #include <deque>
 #include <fstream>
 #include <string>
@@ -22,6 +23,8 @@ void FileEngine::Generate() {
 
         outFile << "}";
         outFile.close();
+
+        system(std::string("dot -Tpng ./" + node.name + "graph.gv -o" + node.name + ".png").c_str());
     }
 }
 
