@@ -19,14 +19,13 @@ class FileEngine {
         void RecursiveNodeAddition(
             std::ofstream &outFile,
             const Node node,
-            std::unique_ptr<std::unordered_set<std::string>> visited = std::make_unique<std::unordered_set<std::string>>()
+            std::shared_ptr<std::unordered_set<std::string>> visited = std::make_shared<std::unordered_set<std::string>>()
         );
         void RecursiveEdgeAddition(
             std::ofstream &outFile,
             const Node node,
-            std::unique_ptr<std::unordered_set<std::string>> visited = std::make_unique<std::unordered_set<std::string>>()
+            std::shared_ptr<std::unordered_set<std::string>> visited = std::make_shared<std::unordered_set<std::string>>()
         );
-        std::map<std::string, Node> m_nodes;
         CMakeGraph m_graph;
 };
 
