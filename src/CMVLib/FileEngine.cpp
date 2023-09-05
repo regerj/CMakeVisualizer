@@ -3,7 +3,11 @@
 #include <cstdlib>
 #include <deque>
 #include <fstream>
+#include <iostream>
+#include <stdexcept>
 #include <string>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unordered_set>
 
 namespace CMV {
@@ -13,8 +17,18 @@ FileEngine::FileEngine(Database graph) : m_graph{graph} {}
 FileEngine::~FileEngine() {}
 
 void FileEngine::Generate() {
+    int status = 0;
+    struct stat sb{0};
+    status = stat("./graph", &sb);
+    if (status != 0) {
+        status = mkdir("./graph", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        if (status != 0) {
+            throw std::runtime_error("Failed to find, access, or create the graph directory.");
+        }
+    }
+    
     for (const auto &node : m_graph.GetNodes()) {
-        std::ofstream outFile(node.name + "graph.gv");
+        std::ofstream outFile("./graph/" + node.name + "graph.gv");
         outFile << "digraph G {\n";
         outFile << "    splines=\"TRUE\";\n";
         
@@ -24,7 +38,7 @@ void FileEngine::Generate() {
         outFile << "}";
         outFile.close();
 
-        system(std::string("dot -Tpng ./" + node.name + "graph.gv -o" + node.name + ".png").c_str());
+        system(std::string("dot -Tpng ./graph/" + node.name + "graph.gv -o ./graph/" + node.name + ".png").c_str());
     }
 }
 
