@@ -6,7 +6,7 @@
 #include <regex>
 #include <string>
 
-// My libs
+// My lib
 #include <Node.h>
 #include <Parser.h>
 #include <FileEngine.h>
@@ -14,8 +14,16 @@
 // Because thats just obnoxious
 namespace fs = std::filesystem;
 
-int main() {
-    CMV::Parser parser("/home/kalidev/src/cmake-example");
+int main(int argc, char *argv[]) {
+    std::string path;
+    if (argc == 2) {
+        path = argv[1];
+    } else {
+        std::cout << "Please provide a path to the root." << std::endl;
+        return -1;
+    }
+
+    CMV::Parser parser(path);
     parser.Parse();
     auto graph = parser.GetGraph();
 

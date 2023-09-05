@@ -33,18 +33,6 @@ Node &Database::operator[](std::string name) {
     return m_nodes[m_map.at(name)];
 }
 
-void Database::GenerateAdjacencyMatrix() {
-    m_adjacencyMatrix.resize(m_nodes.size());
-    for (auto &vector : m_adjacencyMatrix) {
-        vector.resize(m_nodes.size());
-    }
-    for (auto &node : m_nodes) {
-        for (const auto &link : m_nodes[m_map.at(node.name)].links) {
-            
-        }
-    }
-}
-
 std::vector<Node> Database::GetNodes() {
     return m_nodes;
 }

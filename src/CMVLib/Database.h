@@ -17,8 +17,6 @@ class Database {
 
         void Insert(Node node);
 
-        void GenerateAdjacencyMatrix();
-
         bool Exists(std::string name);
 
         Node operator[](uint32_t index) const;
@@ -27,7 +25,6 @@ class Database {
         Node operator[](std::string name) const;
         Node &operator[](std::string name);
     private:
-        std::vector<std::vector<bool>> m_adjacencyMatrix;
         std::vector<Node> m_nodes;
         std::map<std::string, int> m_map;
 };
