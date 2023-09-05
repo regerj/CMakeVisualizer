@@ -5,14 +5,14 @@
 #include <string>
 #include <unordered_set>
 
-#include "CMakeGraph.h"
-#include "CMakeNode.h"
+#include "Database.h"
+#include "Node.h"
 
-namespace CMakeNode {
+namespace CMV {
 
 class FileEngine {
     public:
-        FileEngine(CMakeGraph graph);
+        FileEngine(Database graph);
         void Generate();
         ~FileEngine();
     protected:
@@ -26,7 +26,7 @@ class FileEngine {
             const Node node,
             std::shared_ptr<std::unordered_set<std::string>> visited = std::make_shared<std::unordered_set<std::string>>()
         );
-        CMakeGraph m_graph;
+        Database m_graph;
 };
 
-} // namespace CMakeNode
+} // namespace CMV

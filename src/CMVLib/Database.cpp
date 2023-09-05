@@ -1,39 +1,39 @@
-#include "CMakeGraph.h"
+#include "Database.h"
 
 #include <cstdint>
 #include <map>
 #include <vector>
 
-#include "CMakeNode.h"
+#include "Node.h"
 
-namespace CMakeNode {
+namespace CMV {
 
-void CMakeGraph::Insert(Node node) {
+void Database::Insert(Node node) {
     m_nodes.push_back(node);
     m_map.insert(std::pair<std::string, int>(node.name, m_nodes.size() - 1));
 }
 
-bool CMakeGraph::Exists(std::string name) {
+bool Database::Exists(std::string name) {
     return m_map.find(name) != m_map.end() ? true : false;
 }
 
-Node CMakeGraph::operator[](uint32_t index) const {
+Node Database::operator[](uint32_t index) const {
     return m_nodes[index];
 }
 
-Node &CMakeGraph::operator[](uint32_t index) {
+Node &Database::operator[](uint32_t index) {
     return m_nodes[index];
 }
 
-Node CMakeGraph::operator[](std::string name) const {
+Node Database::operator[](std::string name) const {
     return m_nodes[m_map.at(name)];
 }
 
-Node &CMakeGraph::operator[](std::string name) {
+Node &Database::operator[](std::string name) {
     return m_nodes[m_map.at(name)];
 }
 
-void CMakeGraph::GenerateAdjacencyMatrix() {
+void Database::GenerateAdjacencyMatrix() {
     m_adjacencyMatrix.resize(m_nodes.size());
     for (auto &vector : m_adjacencyMatrix) {
         vector.resize(m_nodes.size());
@@ -45,8 +45,8 @@ void CMakeGraph::GenerateAdjacencyMatrix() {
     }
 }
 
-std::vector<Node> CMakeGraph::GetNodes() {
+std::vector<Node> Database::GetNodes() {
     return m_nodes;
 }
 
-} // namespace CMakeNode
+} // namespace CMV

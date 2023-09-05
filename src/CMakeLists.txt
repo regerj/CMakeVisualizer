@@ -1,22 +1,15 @@
-add_executable(CMV)
-add_library(empty)
+add_executable(CMakeVisualizer)
 
 target_link_libraries(
-    CMV
+    CMakeVisualizer
     PUBLIC
-    CMakeNode
+    CMV
 )
 
 target_sources(
-    CMV
+    CMakeVisualizer
     PRIVATE
     main.cpp
 )
 
-target_sources(
-    empty
-    PRIVATE
-    empty.cpp
-)
-
-add_subdirectory(CMakeNodeLib)
+add_subdirectory(CMVLib)

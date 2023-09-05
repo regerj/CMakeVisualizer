@@ -6,18 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "CMakeGraph.h"
-#include "CMakeNode.h"
+#include "Database.h"
+#include "Node.h"
 
-namespace CMakeNode {
+namespace CMV {
 
-class CMakeParser {
+class Parser {
     public:
-        CMakeParser();
-        CMakeParser(std::string path);
-        CMakeParser * Parse();
+        Parser();
+        Parser(std::string path);
+        Parser * Parse();
         std::map<std::string, Node> GetNodes();
-        CMakeGraph GetGraph();
+        Database GetGraph();
     protected:
         void ParseForTargets(std::filesystem::path path);
         void ParseForSources(std::filesystem::path path);
@@ -27,11 +27,11 @@ class CMakeParser {
         std::string ReadFile(std::filesystem::path path);
         std::string m_path;
         std::map<std::string, Node> m_nodes;
-        CMakeGraph m_graph;
+        Database m_graph;
         const std::regex m_targetRegex = std::regex("add_(executable|library)\\([^\\)]*\\)");
         const std::regex m_sourceRegex = std::regex("target_sources\\([^\\)]*\\)");
         const std::regex m_linksRegex = std::regex("target_link_libraries\\([^\\)]*\\)");
         const std::regex m_whitespaceRegex = std::regex("([\\n|\\s]+)");
 };
 
-} // namespace CMakeNode
+} // namespace CMV

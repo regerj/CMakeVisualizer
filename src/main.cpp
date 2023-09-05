@@ -7,15 +7,15 @@
 #include <string>
 
 // My libs
-#include <CMakeNode.h>
-#include <CMakeParser.h>
-#include <CMakeVisualizer.h>
+#include <Node.h>
+#include <Parser.h>
+#include <FileEngine.h>
 
 // Because thats just obnoxious
 namespace fs = std::filesystem;
 
 int main() {
-    CMakeNode::CMakeParser parser("/home/kalidev/src/cmake-example");
+    CMV::Parser parser("/home/kalidev/src/cmake-example");
     parser.Parse();
     auto graph = parser.GetGraph();
 
@@ -33,6 +33,6 @@ int main() {
     //     }
     // }
 
-    CMakeNode::FileEngine engine(graph);
+    CMV::FileEngine engine(graph);
     engine.Generate();
 }

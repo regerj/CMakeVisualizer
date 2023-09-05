@@ -1,4 +1,4 @@
-#include "CMakeVisualizer.h"
+#include "FileEngine.h"
 
 #include <cstdlib>
 #include <deque>
@@ -6,9 +6,9 @@
 #include <string>
 #include <unordered_set>
 
-namespace CMakeNode {
+namespace CMV {
 
-FileEngine::FileEngine(CMakeGraph graph) : m_graph{graph} {}
+FileEngine::FileEngine(Database graph) : m_graph{graph} {}
 
 FileEngine::~FileEngine() {}
 
@@ -56,4 +56,4 @@ void FileEngine::RecursiveEdgeAddition(std::ofstream &outFile, const Node node, 
     }
 }
 
-} // namespace CMakeNode
+} // namespace CMV

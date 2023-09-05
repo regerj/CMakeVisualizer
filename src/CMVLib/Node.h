@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace CMakeNode {
+namespace CMV {
 
 enum NodeType {
     BINARY = 0,
@@ -22,4 +22,4 @@ struct Node {
     std::vector<std::string> sources;
 };
 
-} // namespace CMakeNode
+} // namespace CMV

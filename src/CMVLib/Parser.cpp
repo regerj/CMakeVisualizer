@@ -1,4 +1,4 @@
-#include "CMakeParser.h"
+#include "Parser.h"
 
 #include <filesystem>
 #include <fstream>
@@ -8,20 +8,20 @@
 #include <string>
 #include <vector>
 
-#include "CMakeGraph.h"
-#include "CMakeNode.h"
+#include "Database.h"
+#include "Node.h"
 
-namespace CMakeNode {
+namespace CMV {
 
-CMakeParser::CMakeParser() : m_path{"./"} {
-
-}
-
-CMakeParser::CMakeParser(std::string path) : m_path{path} {
+Parser::Parser() : m_path{"./"} {
 
 }
 
-CMakeParser * CMakeParser::Parse() {
+Parser::Parser(std::string path) : m_path{path} {
+
+}
+
+Parser * Parser::Parse() {
     for (const auto & entry : std::filesystem::recursive_directory_iterator(m_path)) {
         if (entry.path().string().find("CMakeLists.txt") != std::string::npos) {
             ParseForTargets(entry.path());
@@ -32,15 +32,15 @@ CMakeParser * CMakeParser::Parse() {
     return this;
 }
 
-std::map<std::string, Node> CMakeParser::GetNodes() {
+std::map<std::string, Node> Parser::GetNodes() {
     return m_nodes;
 }
 
-CMakeGraph CMakeParser::GetGraph() {
+Database Parser::GetGraph() {
     return m_graph;
 }
 
-std::vector<std::string> CMakeParser::ParseWithRegex(const std::string str, const std::regex &rx) {
+std::vector<std::string> Parser::ParseWithRegex(const std::string str, const std::regex &rx) {
     std::vector<std::string> vec;
 
     const auto wordsBegin = std::sregex_iterator(str.begin(), str.end(), rx);
@@ -56,7 +56,7 @@ std::vector<std::string> CMakeParser::ParseWithRegex(const std::string str, cons
     return vec;
 }
 
-void CMakeParser::ParseForTargets(std::filesystem::path path){
+void Parser::ParseForTargets(std::filesystem::path path){
     const std::string fileContents = ReadFile(path);
     
     auto names = ParseWithRegex(fileContents, m_targetRegex);
@@ -68,11 +68,10 @@ void CMakeParser::ParseForTargets(std::filesystem::path path){
         } else {
             m_graph.Insert(Node{.name = trimmedName, .scope = INTERNAL});
         }
-        // m_nodes.insert(std::pair<std::string, Node>(trimmedName, Node{.name = trimmedName}));
     }
 }
 
-void CMakeParser::ParseForSources(std::filesystem::path path) {
+void Parser::ParseForSources(std::filesystem::path path) {
     const std::string fileContents = ReadFile(path);
     
     auto sourceGroups = ParseWithRegex(fileContents, m_sourceRegex);
@@ -85,12 +84,11 @@ void CMakeParser::ParseForSources(std::filesystem::path path) {
                 continue;
             }
             m_graph[target].sources.push_back(sources[i]);
-            // m_nodes[target].sources.push_back(sources[i]);
         }
     }
 }
 
-void CMakeParser::ParseForLinks(std::filesystem::path path) {
+void Parser::ParseForLinks(std::filesystem::path path) {
     const std::string fileContents = ReadFile(path);
 
     auto linkGroups = ParseWithRegex(fileContents, m_linksRegex);
@@ -106,12 +104,11 @@ void CMakeParser::ParseForLinks(std::filesystem::path path) {
                 m_graph.Insert(Node{.name = links[i], .type = LIBRARY, .scope = EXTERNAL});
             }
             m_graph[target].links.push_back(links[i]);
-            // m_nodes.find(target)->second.links.push_back(links[i]);
         }
     }
 }
 
-std::vector<std::string> CMakeParser::Tokenize(const std::string &str) {
+std::vector<std::string> Parser::Tokenize(const std::string &str) {
     std::sregex_token_iterator it{str.begin(), str.end(), m_whitespaceRegex, -1};
     std::vector<std::string> tokenized{it, {}};
     tokenized.erase(
@@ -127,7 +124,7 @@ std::vector<std::string> CMakeParser::Tokenize(const std::string &str) {
     return tokenized;
 }
 
-std::string CMakeParser::ReadFile(std::filesystem::path path) {
+std::string Parser::ReadFile(std::filesystem::path path) {
     std::ifstream file;
     file.open(path);
 
@@ -139,4 +136,4 @@ std::string CMakeParser::ReadFile(std::filesystem::path path) {
     return buffer.str();
 }
 
-} // namespace CMakeNode
+} // namespace CMV

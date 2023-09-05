@@ -4,14 +4,14 @@
 #include <map>
 #include <vector>
 
-#include "CMakeNode.h"
+#include "Node.h"
 
-namespace CMakeNode {
+namespace CMV {
 
-class CMakeGraph {
+class Database {
     public:
-        CMakeGraph() {}
-        ~CMakeGraph() {}
+        Database() {}
+        ~Database() {}
 
         std::vector<Node> GetNodes();
 
@@ -32,4 +32,4 @@ class CMakeGraph {
         std::map<std::string, int> m_map;
 };
 
-} // namespace CMakeNode
+} // namespace CMV
